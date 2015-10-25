@@ -35,7 +35,7 @@ The set of variables that were estimated from these signals are:
 mean(): Mean value
 std(): Standard deviation
 
-In addition, the data includes subject and activity variables to identify the subject and the activity they were untaking whe the measurements wer performed.
+In addition, the data includes subject and activity variables to identify the subject and the activity they were undertaking when the measurements were performed.
 
 A complete list of variables is included below:
 

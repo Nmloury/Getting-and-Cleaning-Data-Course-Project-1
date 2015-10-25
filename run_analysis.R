@@ -70,7 +70,6 @@ train_files$X_train$activity <- train_files$y_train[,1]
 traindata <- train_files$X_train
 rm(train_files,train_files_loc)
 
-
 ## Merge Datasets
 alldata <- rbind(testdata, traindata)
 
@@ -81,14 +80,24 @@ meandata <- select(alldata, contains("mean()"), contains("std()"), subject, acti
 ## Rearrange Columns to put Subject and Actiivity First
 meandata <- meandata[,c(67,68,1:66)]
 
-## Create Descriptive Names and Factors in Dataset
+## Make Variable Names more readable
+names(meandata) <- gsub("Acc","Acceleration",names(meandata))
+names(meandata) <- gsub("mean","Mean",names(meandata))
+names(meandata) <- gsub("std","Std",names(meandata))
+names(meandata) <- gsub("-","",names(meandata))
+names(meandata) <- gsub("()","",names(meandata), fixed = TRUE)
+
+
+## Create Descriptive Activity Names and Factors in Dataset
 meandata$activity <- factor(meandata$activity, labels = c("Walking",
                         "Walking Upstairs","Walking Downstairs","Sitting",
                         "Standing","Laying"), ordered = FALSE)
 meandata$subject <- factor(meandata$subject)
 
 ## Create Tidy Datas with the Average of Each Variable by Activity and Subject
-tidydata <- meandata %>% group_by(subject, activity) %>% summarize_each(funs(mean))
+tidydata <- meandata %>% 
+  group_by(subject, activity) %>% 
+  summarize_each(funs(mean))
 
 ## Export Tidy Data Set
 write.table(tidydata, file = "./data/tidydata.txt", row.names = FALSE)
